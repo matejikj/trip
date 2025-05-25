@@ -74,11 +74,11 @@
 
     // Přidání markerů s pop-up popisy a tlačítkem na Google Maps
     places.forEach(function(p) {
-      var gmUrl = 'https://www.google.com/maps/place/' + encodeURIComponent(p.name) + '/@' + p.coords[0] + ',' + p.coords[1] + ',17z';
+      var gmUrl = 'https://www.google.com/maps/place/' + encodeURIComponent(p.name);
       var popupContent =
         '<b>' + p.name + '</b><br>' +
         p.description + '<br><a href="' + gmUrl + '" target="_blank">'
-        + '<button class="gm-button">Otevřít v Google Maps</button></a>';
+        + '<button class="gm-button">Otevřít v Goooogle Maps</button></a>';
 
       L.marker(p.coords).addTo(map).bindPopup(popupContent);
     });
