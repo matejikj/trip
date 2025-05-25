@@ -8,6 +8,21 @@
     /* Plná velikost mapy */
     #map { height: 100vh; width: 100%; margin: 0; padding: 0; }
     html, body { margin: 0; padding: 0; }
+    .gm-button {
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .gm-button:hover {
+      background-color: #357ae8;
+    }
   </style>
 </head>
 <body>
@@ -58,11 +73,19 @@
       { name: "Mediapark", coords: [50.950000, 6.932700], description: "Moderní zóna plná kanceláří, médií a zábavy s jezerem." }
     ];
 
-    // Přidání markerů s pop-up popisy
+    // Přidání markerů s pop-up popisy a tlačítkem na Google Maps
     places.forEach(function(p) {
+      var gmUrl = 'https://www.google.com/maps/search/?api=1&query=' + p.coords[0] + ',' + p.coords[1];
+      var popupContent =
+        '<b>' + p.name + '</b><br>' +
+        p.description + '<br>' +
+        '<a href="' + gmUrl + '" target="_blank">' +
+        '<button class="gm-button">Otevřít v Google Maps</button>' +
+        '</a>';
+
       L.marker(p.coords)
         .addTo(map)
-        .bindPopup("<b>" + p.name + "</b><br>" + p.description);
+        .bindPopup(popupContent);
     });
   </script>
 </body>
