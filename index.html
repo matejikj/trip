@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Interaktivní mapa Kolín nad Rýnem</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    /* Plná velikost mapy */
+    #map { height: 100vh; width: 100%; margin: 0; padding: 0; }
+    html, body { margin: 0; padding: 0; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Inicializace mapy uprostřed Kolína nad Rýnem
+    var map = L.map('map').setView([50.9375, 6.9603], 13);
+
+    // Kvalitní dlaždice z OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Seznam míst
+    var places = [
+      { name: "Kölner Dom", coords: [50.941278, 6.958281], description: "Gotická katedrála a památka UNESCO, symbol města Kolína nad Rýnem." },
+      { name: "Hohenzollernův most", coords: [50.942245, 6.961916], description: "Železniční a pěší most přes Rýn s romantickými zámky zamilovaných." },
+      { name: "Museum Ludwig", coords: [50.939900, 6.957800], description: "Muzeum moderního umění s rozsáhlou sbírkou děl 20. století." },
+      { name: "Čokoládové muzeum", coords: [50.936400, 6.964200], description: "Interaktivní expozice věnovaná historii a výrobě čokolády." },
+      { name: "Rheinauhafen", coords: [50.933500, 6.967800], description: "Moderní přístavní čtvrť s unikátní architekturou." },
+      { name: "KölnTriangle", coords: [50.949800, 6.968600], description: "Vyhlídková věž s panoramatickým výhledem na město a Rýn." },
+      { name: "Rheinpark", coords: [50.943400, 6.975300], description: "Rozsáhlý park podél břehu Rýna ideální pro procházky a pikniky." },
+      { name: "Flora a Botanická zahrada", coords: [50.936600, 6.959400], description: "Historická botanická zahrada se skleníky a expozicemi exotických rostlin." },
+      { name: "Zoo Kolín nad Rýnem", coords: [50.936500, 6.958800], description: "Jedna z nejstarších zoologických zahrad v Německu." },
+      { name: "Muzeum Schnütgen", coords: [50.937400, 6.958800], description: "Muzeum středověkého křesťanského umění." },
+      { name: "Wallraf-Richartz-Museum", coords: [50.937000, 6.961000], description: "Muzeum malířství od středověku po 19. století." },
+      { name: "Farina-Haus", coords: [50.933000, 6.959000], description: "Dům první parfémerie značky Eau de Cologne, založené v roce 1709." },
+      { name: "EL-DE Haus", coords: [50.934000, 6.956400], description: "Nacistická věznice a dokumentační centrum tyranie." },
+      { name: "Státní opera (Oper Köln)", coords: [50.941900, 6.959600], description: "Historická budova opery v centru města." },
+      { name: "Filharmonie Köln", coords: [50.942600, 6.951000], description: "Moderní koncertní síň pro symfonickou a vážnou hudbu." },
+      { name: "Gürzenich", coords: [50.942600, 6.952400], description: "Historická koncertní hala a slavnostní síň ze 15. století." },
+      { name: "Kostel Groß St. Martin", coords: [50.937500, 6.960600], description: "Románský římskokatolický kostel na malém ostrově v Rýně." },
+      { name: "Radnice Kolín nad Rýnem", coords: [50.940400, 6.958000], description: "Historická gotická radnice se sgrafitovou výzdobou." },
+      { name: "Hahnentorburg", coords: [50.936200, 6.953600], description: "Jedna z dochovaných městských bran středověkého opevnění." },
+      { name: "Severinstorburg", coords: [50.928200, 6.962800], description: "Další z původních bran vedoucích do čtvrti Severin." },
+      { name: "Belgická čtvrť", coords: [50.933100, 6.948100], description: "Módní oblast plná kaváren, barů, galerií a butiků." },
+      { name: "Museum für Angewandte Kunst", coords: [50.933800, 6.952600], description: "Muzeum užitého umění s designovými a módními expozicemi." },
+      { name: "Lanová dráha přes Rýn", coords: [50.943600, 6.975900], description: "Historická lanovka spojující Rheinpark s výstavním areálem." },
+      { name: "Římsko-germánské muzeum", coords: [50.937200, 6.957000], description: "Archeologické muzeum s nálezy z římské doby." },
+      { name: "Kölnisches Stadtmuseum", coords: [50.933300, 6.959400], description: "Historie města od středověku po současnost." },
+      { name: "Karnevalové muzeum", coords: [50.933100, 6.957300], description: "Expozice věnovaná historii a tradici kolínského karnevalu." },
+      { name: "Stadtgarten", coords: [50.948600, 6.958100], description: "Oblíbený park a kulturní prostor s kavárnou a koncerty." },
+      { name: "Friedenspark", coords: [50.940500, 6.950500], description: "Malý městský park poblíž Barbarossaplatzu." },
+      { name: "RheinEnergieStadion", coords: [50.947900, 6.880400], description: "Fotbalový stadion domácího klubu 1. FC Köln." },
+      { name: "Mediapark", coords: [50.950000, 6.932700], description: "Moderní zóna plná kanceláří, médií a zábavy s jezerem." }
+    ];
+
+    // Přidání markerů s pop-up popisy
+    places.forEach(function(p) {
+      L.marker(p.coords)
+        .addTo(map)
+        .bindPopup("<b>" + p.name + "</b><br>" + p.description);
+    });
+  </script>
+</body>
+</html>
