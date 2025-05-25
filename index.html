@@ -27,7 +27,6 @@
 </head>
 <body>
   <div id="map"></div>
-
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     // Inicializace mapy uprostřed Kolína nad Rýnem
@@ -49,7 +48,7 @@
       { name: "KölnTriangle", coords: [50.949800, 6.968600], description: "Vyhlídková věž s panoramatickým výhledem na město a Rýn." },
       { name: "Rheinpark", coords: [50.943400, 6.975300], description: "Rozsáhlý park podél břehu Rýna ideální pro procházky a pikniky." },
       { name: "Flora a Botanická zahrada", coords: [50.936600, 6.959400], description: "Historická botanická zahrada se skleníky a expozicemi exotických rostlin." },
-      { name: "Zoo Kolín nad Rýnem", coords: [50.936500, 6.958800], description: "Jedna z nejstarších zoologických zahrad v Německu." },
+      { name: "Zoo Kolín nad Rýnem", coords: [50.958362, 6.973585], description: "Jedna z nejstarších zoologických zahrad v Německu." },
       { name: "Muzeum Schnütgen", coords: [50.937400, 6.958800], description: "Muzeum středověkého křesťanského umění." },
       { name: "Wallraf-Richartz-Museum", coords: [50.937000, 6.961000], description: "Muzeum malířství od středověku po 19. století." },
       { name: "Farina-Haus", coords: [50.933000, 6.959000], description: "Dům první parfémerie značky Eau de Cologne, založené v roce 1709." },
@@ -67,7 +66,7 @@
       { name: "Římsko-germánské muzeum", coords: [50.937200, 6.957000], description: "Archeologické muzeum s nálezy z římské doby." },
       { name: "Kölnisches Stadtmuseum", coords: [50.933300, 6.959400], description: "Historie města od středověku po současnost." },
       { name: "Karnevalové muzeum", coords: [50.933100, 6.957300], description: "Expozice věnovaná historii a tradici kolínského karnevalu." },
-      { name: "Stadtgarten", coords: [50.948600, 6.958100], description: "Oblíbený park a kulturní prostor s kavárnou a koncerty." },
+      { name: "Stadtgarten", coords: [50.948600, 6.958100], description: "Oblíbený park a kulturní prostor s kavárnou a koncerty." },
       { name: "Friedenspark", coords: [50.940500, 6.950500], description: "Malý městský park poblíž Barbarossaplatzu." },
       { name: "RheinEnergieStadion", coords: [50.947900, 6.880400], description: "Fotbalový stadion domácího klubu 1. FC Köln." },
       { name: "Mediapark", coords: [50.950000, 6.932700], description: "Moderní zóna plná kanceláří, médií a zábavy s jezerem." }
@@ -75,17 +74,13 @@
 
     // Přidání markerů s pop-up popisy a tlačítkem na Google Maps
     places.forEach(function(p) {
-      var gmUrl = 'https://www.google.com/maps/search/?api=1&query=' + p.coords[0] + ',' + p.coords[1];
+      var gmUrl = 'https://www.google.com/maps/place/' + encodeURIComponent(p.name) + '/@' + p.coords[0] + ',' + p.coords[1] + ',17z';
       var popupContent =
         '<b>' + p.name + '</b><br>' +
-        p.description + '<br>' +
-        '<a href="' + gmUrl + '" target="_blank">' +
-        '<button class="gm-button">Otevřít v Google Maps</button>' +
-        '</a>';
+        p.description + '<br><a href="' + gmUrl + '" target="_blank">'
+        + '<button class="gm-button">Otevřít v Google Maps</button></a>';
 
-      L.marker(p.coords)
-        .addTo(map)
-        .bindPopup(popupContent);
+      L.marker(p.coords).addTo(map).bindPopup(popupContent);
     });
   </script>
 </body>
